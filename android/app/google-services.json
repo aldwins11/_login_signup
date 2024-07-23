@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "930852921633",
+    "project_id": "finalproject-65682",
+    "storage_bucket": "finalproject-65682.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930852921633:android:d0b0939c253e2b8b1e1e60",
+        "android_client_info": {
+          "package_name": "com.example.stagram"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQZS6WfKtH68YLzmNZLm-jlVx5pKgjVrc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
