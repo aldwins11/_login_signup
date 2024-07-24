@@ -69,16 +69,15 @@ class _SignUpPageState extends State<SignUpPage> {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF1A2980), Color(0xFF26D0CE), Color(0xFF6DD5FA)],
+          colors: [Color(0xFF000000), Color(0xFF333333)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Center(
-          child: Form(
-            key: _formKey,
+        body: SingleChildScrollView(
+          child: Center(
             child: Padding(
               padding: const EdgeInsets.all(60.0),
               child: Column(
@@ -87,10 +86,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   Column(
                     children: [
                       Container(
-                        decoration: const BoxDecoration(
-                          // border: Border.all(color: Colors.white, width: 2),
-                          // shape: BoxShape.circle,
-                        ),
                         child: const Icon(
                           Icons.electric_bolt,
                           color: Colors.white,
@@ -104,158 +99,171 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.mail),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.black),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.white),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.black),
-                      ),
-                      hintText: 'Email',
-                      hintStyle: const TextStyle(color: Colors.white),
-                    ),
-                    style: const TextStyle(color: Colors.white),
-                    validator: _emailValidator,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.lock),
-                      suffixIcon: GestureDetector(
-                        onTap: _toggle,
-                        child: Icon(
-                          _obscureText
-                              ? Icons.visibility_rounded
-                              : Icons.visibility_off_rounded,
-                          size: 20,
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            errorStyle: TextStyle(color: Colors.red[300]),
+                            prefixIcon: const Icon(Icons.mail),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.black),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.white),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.black),
+                            ),
+                            hintText: 'Email',
+                            hintStyle: const TextStyle(color: Colors.white),
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                          validator: _emailValidator,
                         ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.black),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.white),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.black),
-                      ),
-                      hintText: 'Password',
-                      hintStyle: const TextStyle(color: Colors.white),
-                    ),
-                    style: const TextStyle(color: Colors.white),
-                    obscureText: _obscureText,
-                    validator: _passwordValidator,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: _cPasswordController,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.check_circle),
-                      suffixIcon: GestureDetector(
-                        onTap: _toggle,
-                        child: Icon(
-                          _obscureText
-                              ? Icons.visibility_rounded
-                              : Icons.visibility_off_rounded,
-                          size: 20,
+                        const SizedBox(
+                          height: 10,
                         ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.black),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.white),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(color: Colors.black),
-                      ),
-                      hintText: 'Confirm Password',
-                      hintStyle: const TextStyle(color: Colors.white),
-                    ),
-                    style: const TextStyle(color: Colors.white),
-                    obscureText: _obscureText,
-                    validator: _cPasswordValidator,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: _signUp,
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.blueGrey,
-                      shape: const StadiumBorder(),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    child: SizedBox(
-                        width: double.infinity,
-                        child: Center(
-                          child: _isSigning
-                              ? const SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                    color: Colors.amber,
-                                    strokeWidth: 2,
-                                  ),
-                              )
-                              : const Text(
-                                  "Signup ",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                        )),
-                  ),
-                  const SizedBox(height: 10),
-                  RichText(
-                      text: TextSpan(children: [
-                    const TextSpan(
-                        text: "Already have an account? ",
-                        style: TextStyle(fontSize: 13, color: Colors.black)),
-                    TextSpan(
-                        text: 'Sign in',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          decoration: TextDecoration.underline,
+                        TextFormField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            errorStyle: TextStyle(color: Colors.red[300]),
+                            prefixIcon: const Icon(Icons.lock),
+                            suffixIcon: GestureDetector(
+                              onTap: _toggle,
+                              child: Icon(
+                                _obscureText
+                                    ? Icons.visibility_rounded
+                                    : Icons.visibility_off_rounded,
+                                size: 20,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.black),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.white),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.black),
+                            ),
+                            hintText: 'Password',
+                            hintStyle: const TextStyle(color: Colors.white),
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                          obscureText: _obscureText,
+                          validator: _passwordValidator,
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginPage()))),
-                  ]))
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _cPasswordController,
+                          decoration: InputDecoration(
+                            errorStyle: TextStyle(color: Colors.red[300]),
+                            prefixIcon: const Icon(Icons.check_circle),
+                            suffixIcon: GestureDetector(
+                              onTap: _toggle,
+                              child: Icon(
+                                _obscureText
+                                    ? Icons.visibility_rounded
+                                    : Icons.visibility_off_rounded,
+                                size: 20,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.black),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.white),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: const BorderSide(color: Colors.black),
+                            ),
+                            hintText: 'Confirm Password',
+                            hintStyle: const TextStyle(color: Colors.white),
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                          obscureText: _obscureText,
+                          validator: _cPasswordValidator,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                          onPressed: _signUp,
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.blueGrey,
+                            shape: const StadiumBorder(),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                          ),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Center(
+                              child: _isSigning
+                                  ? const SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.amber,
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const Text(
+                                      "Signup ",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        RichText(
+                            text: TextSpan(children: [
+                          const TextSpan(
+                              text: "Already have an account? ",
+                              style:
+                                  TextStyle(fontSize: 13, color: Colors.white)),
+                          TextSpan(
+                              text: 'Sign in',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                decoration: TextDecoration.underline,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginPage()))),
+                        ]))
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -284,7 +292,7 @@ class _SignUpPageState extends State<SignUpPage> {
             MaterialPageRoute(builder: (context) => const MyHome()));
       } else {
         ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Email already exist')));
+            .showSnackBar(const SnackBar(content: Text('Email already exists')));
       }
     }
   }

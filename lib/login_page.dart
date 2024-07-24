@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stagram/home.dart';
 import 'package:stagram/signup_page.dart';
 import 'package:stagram/user_auth/firebase_auth_services.dart';
-
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,6 +21,21 @@ class _LoginPageState extends State<LoginPage> {
   final FirebaseAuthService _auth = FirebaseAuthService();
   bool _obscureText = true;
   bool _isSigning = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  void _checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    if (isLoggedIn) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const MyHome()));
+    }
+  }
 
   void _toggle() {
     setState(() {
@@ -57,13 +72,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        // LinearGradient(
-        //   colors: [Colors.blue, Colors.green, Colors.yellow],
-        //   begin: Alignment.topRight,
-        //   end: Alignment.bottomLeft,
-        // )
         gradient: LinearGradient(
-          colors: [Color(0xFF1A2980), Color(0xFF26D0CE), Color(0xFF6DD5FA)],
+          colors: [Color(0xFF000000), Color(0xFF333333)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -95,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
+                      errorStyle: TextStyle(color: Colors.red[300]),
                       prefixIcon: const Icon(Icons.mail),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
@@ -117,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     style: const TextStyle(color: Colors.white),
                     validator: _emailValidator,
+                    
                   ),
                   const SizedBox(
                     height: 10,
@@ -124,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextFormField(
                     controller: _passwordController,
                     decoration: InputDecoration(
+                      errorStyle: TextStyle(color: Colors.red[300]),
                       prefixIcon: const Icon(Icons.lock),
                       suffixIcon: GestureDetector(
                         onTap: _toggle,
@@ -194,7 +207,8 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton.icon(
                       onPressed: signInWithGoogle,
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.blueGrey, backgroundColor: Colors.white,
+                        foregroundColor: Colors.blueGrey,
+                        backgroundColor: Colors.white,
                         shape: const StadiumBorder(),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
@@ -214,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                       text: TextSpan(children: [
                     const TextSpan(
                         text: "Don't have an account? ",
-                        style: TextStyle(fontSize: 13, color: Colors.black)),
+                        style: TextStyle(fontSize: 13, color: Colors.white)),
                     TextSpan(
                         text: 'Sign up',
                         style: const TextStyle(
@@ -252,7 +266,9 @@ class _LoginPageState extends State<LoginPage> {
     });
     if (_formKey.currentState!.validate()) {
       if (user != null && mounted) {
-        debugPrint("User is successfully signed in");
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('isLoggedIn', true);
+        debugPrint('User successfully logged in');
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const MyHome()));
       } else {
@@ -280,6 +296,9 @@ class _LoginPageState extends State<LoginPage> {
           idToken: googleSignInAuthentication.idToken,
           accessToken: googleSignInAuthentication.accessToken,
         );
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('isLoggedIn', true);
 
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
